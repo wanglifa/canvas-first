@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>我的第一个画布</title>
+	<style>
+		body{
+			margin: 0;
+		}
+		#xxx{
+  			background: green;
+		}
+		button{
+		  position:absolute;
+		  bottom:0;
+		  left:0;
+		}
+	</style>
+</head>
+<body>
+<canvas id="xxx" width=300 height=300></canvas>
+<button>橡皮擦</button>	
+<script>
+var yyy = document.getElementById('xxx');
+var context = yyy.getContext('2d');
+
+winBig();
+//窗口改变
+window.onresize = function(){
+  winBig();
+}
+//窗口大小
+function winBig(){
+  yyy.width =document.documentElement.clientWidth;
+  yyy.height = document.documentElement.clientHeight;
+}
+var using = false;
+var lastPoint = {  //起点的点，因为一开始页面上没有点，所以她的x，y就设置为未定义就好
+  'x':'undefined',
+  'y':'undefined'
+}
+yyy.onmousedown = function(a){
+  var x = a.clientX;
+  var y = a.clientY;
+  if(useeraser){
+    using = true;//按下鼠标为true
+    context.clearRect(x-5,y-5,10,10)
+  }else{
+    using = true;
+    lastPoint = {'x':x,'y':y}; //刚开始鼠标点下的点肯定是起点
+    drawCircle(x,y,2.5);
+  }
+  
+}
+yyy.onmousemove = function(a){
+  var x = a.clientX;
+  var y = a.clientY;
+  if(useeraser){
+    if(using){ //说明按下了鼠标，只有按下时鼠标再移动才管用
+      context.clearRect(x-5,y-5,10,10);
+    }
+  }else{
+    if(using){
+    	var newPoint = {'x':x,'y':y};//	鼠标开始移动后就是她的下一个点也就是所谓的终点
+    	drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y);
+    	lastPoint = newPoint;//将现在的这个点作为起点
+  	}
+  }
+  
+}
+yyy.onmouseup = function(a){
+  using = false;
+}
+//画点
+function drawCircle(x,y,radius){
+  context.beginPath();
+  context.arc(x,y,radius,0,Math.PI*2);
+  context.fill()
+}
+//画线
+function drawLine(x1,y1,x2,y2){
+  context.beginPath();
+  context.strokeStyle = 'black';
+  context.lineWidth = 5;
+  context.moveTo(x1,y1);
+  context.lineTo(x2,y2);
+  context.stroke();
+  context.closePath();
+}
+//是否使用橡皮擦
+var useeraser = false;
+var button = document.getElementsByTagName('button')[0];
+button.onclick = function(){
+  useeraser = !useeraser;
+}
+
+</script>
+</body>
+</html>
