@@ -12,6 +12,9 @@
 	margin: 0;
 	padding: 0;
 }
+#xxx{
+	display: block;
+}
 .actions{
 	position: absolute;
 	top: 10px;
@@ -56,6 +59,7 @@
 	box-shadow: 0 0 8px rgba(0,0,0,.6);
 	transform: scale(1.2);
 }
+<<<<<<< HEAD
 .sizes{
 	position: fixed;
 	top: 20px;
@@ -75,3 +79,5 @@
 .sizes li.active{
 	border: 1px solid red;
 }
+=======
+>>>>>>> 28fb8b0097d71701a58860c57ea8a55b99a163df
