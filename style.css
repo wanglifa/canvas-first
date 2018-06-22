@@ -9,6 +9,9 @@
 	margin: 0;
 	padding: 0;
 }
+#xxx{
+	display: block;
+}
 .actions{
 	position: absolute;
 	top: 10px;
