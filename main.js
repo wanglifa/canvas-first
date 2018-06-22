@@ -1,6 +1,6 @@
 var yyy = document.getElementById('xxx');
 var context = yyy.getContext('2d');
-
+var lineWidth = 5;
 autoSetCanvasSize(yyy);
 
 listenToUser(yyy);
@@ -28,8 +28,8 @@ function drawCircle(x,y,radius){
 //画线
 function drawLine(x1,y1,x2,y2){
   context.beginPath();
-  context.lineWidth = 5;
   context.moveTo(x1,y1);
+  context.lineWidth = lineWidth;
   context.lineTo(x2,y2);
   context.stroke();
   context.closePath();
@@ -46,37 +46,72 @@ brush.onclick = function(){
 	this.classList.add('active');
 	eraser.classList.remove('active');
 }
-black.onclick = function(){
-	this.classList.add('active');
-	context.fillStyle = 'black';
-	context.strokeStyle = 'black';
-	red.classList.remove('active');
-	blue.classList.remove('active');
-	green.classList.remove('active');
+// black.onclick = function(){
+// 	this.classList.add('active');
+// 	context.fillStyle = 'black';
+// 	context.strokeStyle = 'black';
+// 	red.classList.remove('active');
+// 	blue.classList.remove('active');
+// 	green.classList.remove('active');
+// }
+// red.onclick = function(){
+// 	this.classList.add('active');
+// 	context.fillStyle = 'red';
+// 	context.strokeStyle = 'red';
+// 	black.classList.remove('active');
+// 	blue.classList.remove('active');
+// 	green.classList.remove('active');
+// }
+// blue.onclick = function(){
+// 	this.classList.add('active');
+// 	context.fillStyle = 'blue';
+// 	context.strokeStyle = 'blue';
+// 	red.classList.remove('active');
+// 	black.classList.remove('active');
+// 	green.classList.remove('active');
+// }
+// green.onclick = function(){
+// 	this.classList.add('active');
+// 	context.fillStyle = 'green';
+// 	context.strokeStyle = 'green';
+// 	red.classList.remove('active');
+// 	blue.classList.remove('active');
+// 	black.classList.remove('active');
+// }
+var colors = document.getElementById('colors');
+var lis = colors.getElementsByTagName('li');
+for(var i=0;i<lis.length;i++){
+	lis[i].onclick = function(e){
+		for(var j=0;j<lis.length;j++){
+			lis[j].className='';
+		}
+		this.className = 'active';
+		context.fillStyle = this.id;
+		context.strokeStyle = this.id;
+	}
 }
-red.onclick = function(){
-	this.classList.add('active');
-	context.fillStyle = 'red';
-	context.strokeStyle = 'red';
-	black.classList.remove('active');
-	blue.classList.remove('active');
-	green.classList.remove('active');
+thin.onclick = function(){
+	this.className = 'active';
+	lineWidth = 5;
+	thick.className = '';
 }
-blue.onclick = function(){
-	this.classList.add('active');
-	context.fillStyle = 'blue';
-	context.strokeStyle = 'blue';
-	red.classList.remove('active');
-	black.classList.remove('active');
-	green.classList.remove('active');
+thick.onclick = function(){
+	this.className = 'active';
+	lineWidth = 8;
+	thin.className = '';
 }
-green.onclick = function(){
-	this.classList.add('active');
-	context.fillStyle = 'green';
-	context.strokeStyle = 'green';
-	red.classList.remove('active');
-	blue.classList.remove('active');
-	black.classList.remove('active');
+
+clear.onclick = function(){
+	context.clearRect(0,0,yyy.width,yyy.height);
+}
+
+save.onclick = function(){
+	var image = yyy.toDataURL();
+	var aLink = document.createElement('a');
+	document.body.appendChild(aLink);
+	aLink.download = 'image.png';
+	aLink.href = image;
+	aLink.click();//点击a
 }
 
 function listenToUser(canvas){
@@ -95,7 +130,7 @@ function listenToUser(canvas){
 	   		  context.clearRect(x-5,y-5,10,10)
 	   		}else{
 	   		  lastPoint = {'x':x,'y':y}; //	刚开始鼠标点下的点肯定是起点
-	   		  drawCircle(x,y,2.5);
+	   		  // drawCircle(x,y,2.5);
 	   		}
 		}
 		canvas.ontouchmove = function(a){
